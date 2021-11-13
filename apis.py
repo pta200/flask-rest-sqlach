@@ -1,6 +1,6 @@
 from flask import request
 from flask_restful import Resource
-from models import db, ma, Post, PostSchema
+from models import db, ma, Post, PostSchema, uuid
 
 class PostListResource(Resource):
     # list all posts
@@ -10,6 +10,7 @@ class PostListResource(Resource):
     # create new post
     def post(self):
         new_post = Post(
+            post_id=uuid.uuid4(),
             title=request.json['title'],
             content=request.json['content']
         )
