@@ -3,10 +3,11 @@ from flask_restful import Resource
 from models import db, ma, Post, PostSchema
 
 class PostListResource(Resource):
+    # list all posts
     def get(self):
         posts = Post.query.all()
         return posts_schema.dump(posts)
-    # new
+    # create new post
     def post(self):
         new_post = Post(
             title=request.json['title'],
@@ -17,10 +18,12 @@ class PostListResource(Resource):
         return post_schema.dump(new_post)
 
 class PostResource(Resource):
+    # get post by id
     def get(self, post_id):
         post = Post.query.get_or_404(post_id)
         return post_schema.dump(post)
     
+    # update post
     def patch(self, post_id):
         post = Post.query.get_or_404(post_id)
 
@@ -32,11 +35,13 @@ class PostResource(Resource):
         db.session.commit()
         return post_schema.dump(post)
 
+    # delete post
     def delete(self, post_id):
         post = Post.query.get_or_404(post_id)
         db.session.delete(post)
         db.session.commit()
         return '', 204
 
+# instantiate json post schema
 post_schema = PostSchema()
 posts_schema = PostSchema(many=True)

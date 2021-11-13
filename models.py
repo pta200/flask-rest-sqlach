@@ -4,6 +4,7 @@ from flask_marshmallow import Marshmallow
 db = SQLAlchemy()
 ma = Marshmallow()
 
+# sql blog post model
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(50))
@@ -12,6 +13,7 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post %s>' % self.title
 
+# marshmallow json post model for api responses
 class PostSchema(ma.Schema):
     class Meta:
         fields = ("id", "title", "content")
