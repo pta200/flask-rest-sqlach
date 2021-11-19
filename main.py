@@ -1,9 +1,9 @@
 from flask import Flask
 from models import db, ma, Post, PostSchema, RevokedTokenModel
-#from apis import PostResource, PostListResource
 import apis, credentials
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
 
 
 # init app
@@ -20,7 +20,9 @@ ma.init_app(app)
 app.config['JWT_SECRET_KEY'] = 'jwt-secret-string'
 app.config['JWT_BLACKLIST_ENABLED'] = True
 app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
+app.config['PROPAGATE_EXCEPTIONS'] = True
 
+# regiser jtw
 jwt = JWTManager(app)
 
 # check it token is on blacklist
@@ -31,12 +33,11 @@ def check_if_token_in_blacklist(header,decrypted_token):
 
 # init flask restful
 api = Api(app)
+CORS(app)
 
 # register apis
 api.add_resource(apis.PostListResource, '/posts')
 api.add_resource(apis.PostResource, '/posts/<int:post_id>')
-
-# regiser jtw
 api.add_resource(credentials.UserRegistration, '/registration')
 api.add_resource(credentials.UserLogin, '/login')
 api.add_resource(credentials.UserLogoutAccess, '/logout/access')

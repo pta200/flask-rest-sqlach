@@ -65,7 +65,7 @@ class UserLogin(Resource):
 class UserLogoutAccess(Resource):
     @jwt_required()
     def post(self):
-        jti = get_raw_jwt()['jti']
+        jti = get_jwt()['jti']
         try:
             revoked_token = RevokedTokenModel(jti = jti)
             revoked_token.add()
@@ -77,7 +77,7 @@ class UserLogoutAccess(Resource):
 class UserLogoutRefresh(Resource):
     @jwt_required(refresh=True)
     def post(self):
-        jti = get_raw_jwt()['jti']
+        jti = get_jwt()['jti']
         try:
             revoked_token = RevokedTokenModel(jti = jti)
             revoked_token.add()
