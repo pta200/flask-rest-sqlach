@@ -1,3 +1,7 @@
+"""
+Application main file
+"""
+
 from flask import Flask
 from models import db, ma, Post, PostSchema, RevokedTokenModel
 import apis, credentials
@@ -37,8 +41,9 @@ def create_app(test_config=None):
     CORS(app)
 
     # register apis
-    api.add_resource(apis.PostListResource, '/posts')
-    api.add_resource(apis.PostResource, '/posts/<int:post_id>')
+    api.add_resource(apis.ListResources, '/posts')
+    api.add_resource(apis.ManageResources, '/posts/<int:post_id>')
+    api.add_resource(apis.PostResource, '/post')
     api.add_resource(credentials.UserRegistration, '/registration')
     api.add_resource(credentials.UserLogin, '/login')
     api.add_resource(credentials.UserLogoutAccess, '/logout/access')

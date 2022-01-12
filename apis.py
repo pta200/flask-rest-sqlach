@@ -1,14 +1,20 @@
+"""
+Flask-RESTfull API file
+"""
+
 from flask import request
 from flask_restful import Resource
 from models import db, ma, Post, PostSchema, uuid
 from credentials import jwt_required
 
-class PostListResource(Resource):
+class ListResources(Resource):
     # list all posts
     @jwt_required()
     def get(self):
         posts = Post.query.all()
         return posts_schema.dump(posts)
+
+class PostResource(Resource):
     # create new post
     @jwt_required()
     def post(self):
@@ -20,8 +26,9 @@ class PostListResource(Resource):
         db.session.add(new_post)
         db.session.commit()
         return post_schema.dump(new_post)
+    
 
-class PostResource(Resource):
+class ManageResources(Resource):
     # get post by id
     @jwt_required()
     def get(self, post_id):
