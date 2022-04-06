@@ -1,0 +1,7 @@
+version: "3"
+services:
+  mongo:
+    image: pta200/flask-rest-sqlalch:latest
+    container_name: flask-rest-sqlalch 
+    ports:
+      - 8080:5000
